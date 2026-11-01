@@ -1,0 +1,10 @@
+# Aviation Hybrid Lit Radar - 依赖清单
+# Python 3.10+ (本项目在 Python 3.14 上验证)
+fastapi>=0.115
+uvicorn>=0.30
+pydantic>=2.7
+requests>=2.32
+openai>=1.40
+python-dotenv>=1.0
+pytest>=8.0
+httpx>=0.27

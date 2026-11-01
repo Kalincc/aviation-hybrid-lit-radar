@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+data/radar.db
+data/radar.db-journal
+logs/
+.DS_Store
+Thumbs.db
