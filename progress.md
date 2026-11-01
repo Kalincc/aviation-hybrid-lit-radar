@@ -39,5 +39,7 @@
 - 2026-11-01 作业一（独立交付）：data-analyst 完成 NGSIM 数据分析报告 docx+pdf（3 页 A4）、4 张 300dpi 复合图、清洗数据与可复现脚本；Lead 完成视觉验收与数字复核。
 - 2026-11-01 Lead：作业一报告用 `nature-paper2word`（md-to-word 3.2.0）重排版：3 页 A4、三线表、图题在下/表题在上、无表格跨页；Word 预览版交付用户确认，确认后替换正式 docx/PDF 与桌面副本。
 
+- 2026-11-01 Lead：交付收尾——作业一正式替换为排版版 docx（3 页）并导出 PDF（旧版备份于 `ass1/_旧版备份`）；新增 `提交说明.md`；两作业按提交要求打包至桌面 `AI作业\提交材料\`（含两个 zip）。
+
 ## Backlog（P1，后续可选）
 - URL 查询参数同步、深色模式、CSV 导出、`/` 快捷键聚焦搜索、定时自动刷新（APScheduler）、配置 `SEMANTIC_SCHOLAR_API_KEY` 后 refresh 也可抓 S2。
