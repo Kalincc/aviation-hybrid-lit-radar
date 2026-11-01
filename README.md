@@ -14,7 +14,7 @@
 
 | 作业要求的 MVP 模块 | 实现位置 | 说明 |
 | --- | --- | --- |
-| ① 自动检索：按用户定义的时间窗口 X 天，从 arXiv / Semantic Scholar 检索多组关键词论文，并入库 | `src/sources.py`、`src/pipeline.py`、前端时间窗口（7/30/90/180/全部） | arXiv Atom API + Semantic Scholar Graph API（seed bootstrap）+ OpenAlex 代码路径；4 组关键词、去重、航空语境相关性过滤、入库 |
+| ① 自动检索：按用户定义的时间窗口 X 天，从 arXiv / OpenAlex / Semantic Scholar 检索多组关键词论文，并入库 | `src/sources.py`、`src/pipeline.py`、前端时间窗口（7/30/90/180/全部） | arXiv Atom API + Semantic Scholar Graph API（seed bootstrap）+ OpenAlex 代码路径；4 组关键词、去重、航空语境相关性过滤、入库 |
 | ② LLM 结构化提取：一句话核心贡献 / 数据集与方法 / 代码是否开源 | `src/extractor.py` | DeepSeek `deepseek-chat`，few-shot + 强约束 JSON；代码开源判定必须给出摘要逐字证据，无法判断返回 `unknown` |
 | ③ 可视化看板：关键词搜索 + 开源状态筛选 + 统计图表 + 刷新 | `static/`（FastAPI 托管） | 原生 HTML/CSS/JS 单页：搜索防抖、开源/来源/排序筛选、分页、4 统计卡、月度趋势/标签分布/开源占比/抓取记录、刷新按钮 |
 | ④ 防幻觉与错误兜底：API 报错 / 解析失败重试 | `src/extractor.py`、`src/sources.py`、`src/api.py`、前端状态机 | schema+枚举+证据三重校验、JSON 修复重试、启发式降级、单源失败不阻塞、`runs` 审计、UI 错误/空态/无结果态 |
@@ -35,7 +35,7 @@ copy .env.example .env
 python app.py
 ```
 
-打开 <http://127.0.0.1:8000> 。首次启动若数据库为空，会自动导入 `data/seed_papers.json`（48 篇真实论文，2026-11-01 抓取）；也可手动导入：
+打开 <http://127.0.0.1:8000> 。首次启动若数据库为空，会自动导入 `data/seed_papers.json`（143 篇真实论文，2026-11-01 抓取/刷新）；也可手动导入：
 
 ```bat
 python -m src.pipeline --load-seed
@@ -67,9 +67,9 @@ macOS / Linux 将 `.venv\Scripts\activate` 换成 `source .venv/bin/activate` �
 | Semantic Scholar Graph API | 可选 Key | seed 一次性 bootstrap（真实数据） | 无 Key 易 429：退避 20/40/60s 重试；常规 refresh 无 Key 时跳过 |
 | OpenAlex | 免 Key（可选 Key） | 正式出版物，摘要倒排还原 | 无 Key 免费额度按出口 IP 共享（$0.1/天），耗尽时 429 属预期，记入 `runs.errors` 不阻塞 |
 
-> 2026-11-01 当天 OpenAlex 免费额度已耗尽（429，UTC 0 点重置），因此 seed 采用 **Semantic Scholar 46 篇 + arXiv 2 篇**；OpenAlex 代码路径保留，配额恢复后 `refresh` 自动恢复使用。
+> seed 生成方式（真实 API，可复现）：arXiv 180 天窗口 7 条结果中保留 2 篇；Semantic Scholar **bulk 端点** 8 组带引号短语查询，经相关性过滤与三键去重后入库 46 篇；2026-11-01 12:57 首次 seed 共 **48 篇**（S2 46 + arXiv 2）。
 >
-> seed 生成方式（真实 API，可复现）：arXiv 180 天窗口抓到 2 篇（90 天内为 0 篇，故补 90~180 天的真实旧文）；Semantic Scholar **bulk 端点** 8 组带引号短语查询共 265 条原始结果（约 253 条有摘要），相关性过滤后 266 条 → 三键去重 205 条 → 90 天窗口 54 篇 → 最终 seed 48 篇。因当前无 OpenAlex Key 且免费额度受限，seed 未包含 OpenAlex 条目。
+> 2026-11-01 当天无 Key 时 OpenAlex 免费额度（出口 IP 共享 $0.1/天）曾耗尽（429，UTC 0 点重置）；当天下午配置免费 `OPENALEX_API_KEY` 后真实 `POST /api/refresh`（days=180）成功：抓取 97 → 新增 95 → 提取 95，42.9 s，0 错误；当前库 **143 篇**（OpenAlex 95 + S2 46 + arXiv 2），默认 90 天视图 103 篇。seed 已重新导出为 143 篇（LLM 106 / 启发式 37）。
 
 ## 5. 防幻觉与错误兜底（模块④ 设计）
 
@@ -107,7 +107,7 @@ aviation-hybrid-lit-radar/
 │  └─ api.py               # FastAPI 路由、错误格式、静态资源
 ├─ static/                 # 单页看板（index.html + css + js + favicon）
 ├─ tests/                  # pytest：sources/extractor/db/api 共 48 用例
-├─ data/seed_papers.json   # 48 篇真实论文 + 提取结果（可复现 seed）
+├─ data/seed_papers.json   # 143 篇真实论文 + 提取结果（可复现 seed）
 ├─ docs/UI-SPEC.md         # 视觉/交互规格（由设计系统落地）
 ├─ docs/screenshots/       # 看板截图（1440/1024/768/375）
 ├─ design-system/…/MASTER.md  # ui-ux-pro-max 生成的设计系统
@@ -130,12 +130,12 @@ aviation-hybrid-lit-radar/
 
 搜索与筛选（`energy management`）：![搜索态](docs/screenshots/dashboard-search-energy-management.png)
 
-> 刷新过程与完成 toast（`refresh-loading-mock.png`、`refresh-toast-mock.png`）为 **mock 数据**下的交互状态示意：2026-11-01 当天 OpenAlex 免费额度已耗尽，真实刷新会走「错误横幅 + 抓取记录 error」的兜底路径，故未用真实刷新截图；配额恢复后（UTC 0 点，或配置免费 `OPENALEX_API_KEY`）点「刷新数据」即可得到真实 toast。
+> 刷新过程与完成 toast 为真实截图（`refresh-loading.png` / `refresh-toast.png`）：2026-11-01 15:23 的一次成功刷新 run（15.7 s）去重后 `fetched=34 / inserted=0 / extracted=0`，toast 显示「已更新：新增 0 篇，提取 0 篇」；库中为 143 篇真实论文（默认 90 天视图 103 篇）。
 
 ## 10. 已知限制
 
 - **代码开源字段 `unknown` 占多数**：航空 EMS 论文摘要普遍不声明代码仓库；本项目坚持“无逐字证据即 unknown”，不做猜测（可在卡片「证据」中查看判定依据）。
-- **arXiv 本方向近 90 天论文稀疏**（seed 中 2 篇为 180 天窗口内）；OpenAlex 配额恢复后才会有更多正式出版物。
+- **arXiv 本方向近 90 天论文稀疏**（全部 2 篇落在 180 天窗口内）；OpenAlex 依赖免费 Key 的每日额度，额度耗尽时 refresh 返回预期错误并记入 `runs`。
 - S2 无 Key 时仅 seed bootstrap 使用；常规 refresh 在无 Key 时跳过 S2。
 - 单机 SQLite + 同步刷新，数据量大时需改为任务队列（超出 MVP 范围）。
 - 摘要缺失的论文（S2 少数）会以启发式入库并在卡片标注。
