@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | 后端 | Python 3.14 + FastAPI + SQLite（stdlib `sqlite3`，无 ORM） | `app.py` 为入口 |
 | LLM | DeepSeek，OpenAI 兼容 SDK（`openai` 包） | 无 Key 自动降级为启发式 |
-| 数据源 | arXiv API、OpenAlex API（均免 Key）；Semantic Scholar 可选 | 见 `src/sources.py` |
+| 数据源 | arXiv API（免 Key，请求间隔 ≥3s）、OpenAlex API（免 Key，可选 `OPENALEX_API_KEY`，无 Key 免费额度按出口 IP 共享）、Semantic Scholar（可选 Key；无 Key 仅 seed bootstrap） | 见 `src/sources.py` |
 | 前端 | 原生 HTML / CSS / JavaScript，无构建工具、无 CDN、离线可用 | `static/` |
 | 测试 | pytest + httpx（FastAPI TestClient） | `tests/` |
 

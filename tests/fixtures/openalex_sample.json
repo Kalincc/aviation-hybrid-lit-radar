@@ -1,0 +1,1449 @@
+{
+ "meta": {
+  "count": 3,
+  "per_page": 3
+ },
+ "results": [
+  {
+   "id": "https://openalex.org/W7224740090",
+   "doi": "https://doi.org/10.1007/978-3-032-37207-9_81",
+   "title": "Sustainable Aviation Fuel Adoption Strategies Under Regulatory Blending Mandates",
+   "display_name": "Sustainable Aviation Fuel Adoption Strategies Under Regulatory Blending Mandates",
+   "publication_date": "2026-10-30",
+   "publication_year": 2026,
+   "primary_location": {
+    "landing_page_url": "https://doi.org/10.1007/978-3-032-37207-9_81"
+   },
+   "authorships": [
+    {
+     "author": {
+      "display_name": "Konstantia Kontodimou"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Konstantinos L. Kepaptsoglou"
+     }
+    }
+   ],
+   "abstract_inverted_index": {
+    "Abstract": [
+     0
+    ],
+    "The": [
+     1,
+     76,
+     164
+    ],
+    "European": [
+     2,
+     137
+    ],
+    "Union’s": [
+     3
+    ],
+    "“ReFuelEU": [
+     4
+    ],
+    "Aviation”": [
+     5
+    ],
+    "regulation,": [
+     6
+    ],
+    "under": [
+     7
+    ],
+    "the": [
+     8,
+     33,
+     119,
+     148,
+     167
+    ],
+    "Fit": [
+     9
+    ],
+    "for": [
+     10,
+     29,
+     176
+    ],
+    "55": [
+     11
+    ],
+    "package,": [
+     12
+    ],
+    "mandates": [
+     13
+    ],
+    "a": [
+     14,
+     71,
+     135
+    ],
+    "phased": [
+     15
+    ],
+    "increase": [
+     16
+    ],
+    "in": [
+     17,
+     63,
+     70,
+     140
+    ],
+    "Sustainable": [
+     18
+    ],
+    "Aviation": [
+     19
+    ],
+    "Fuel": [
+     20
+    ],
+    "(SAF)": [
+     21
+    ],
+    "use": [
+     22
+    ],
+    "across": [
+     23,
+     67
+    ],
+    "EU": [
+     24
+    ],
+    "airports,": [
+     25
+    ],
+    "setting": [
+     26
+    ],
+    "ambitious": [
+     27
+    ],
+    "targets": [
+     28,
+     112,
+     156
+    ],
+    "decarbonizing": [
+     30
+    ],
+    "aviation.": [
+     31
+    ],
+    "However,": [
+     32
+    ],
+    "regulation": [
+     34
+    ],
+    "provides": [
+     35,
+     150
+    ],
+    "limited": [
+     36
+    ],
+    "guidance": [
+     37
+    ],
+    "on": [
+     38
+    ],
+    "how": [
+     39,
+     154
+    ],
+    "airlines": [
+     40,
+     62,
+     103
+    ],
+    "can": [
+     41,
+     157
+    ],
+    "operationalize": [
+     42
+    ],
+    "these": [
+     43
+    ],
+    "requirements": [
+     44
+    ],
+    "given": [
+     45
+    ],
+    "uneven": [
+     46
+    ],
+    "SAF": [
+     47,
+     65,
+     87,
+     93,
+     143,
+     155
+    ],
+    "availability,": [
+     48,
+     94
+    ],
+    "infrastructure": [
+     49,
+     145
+    ],
+    "readiness": [
+     50
+    ],
+    "and": [
+     51,
+     73,
+     99,
+     113,
+     130,
+     179
+    ],
+    "cost": [
+     52
+    ],
+    "differentials.": [
+     53
+    ],
+    "This": [
+     54
+    ],
+    "study": [
+     55
+    ],
+    "develops": [
+     56
+    ],
+    "an": [
+     57
+    ],
+    "optimization": [
+     58
+    ],
+    "model": [
+     59,
+     77,
+     149
+    ],
+    "to": [
+     60,
+     104,
+     134
+    ],
+    "support": [
+     61
+    ],
+    "planning": [
+     64
+    ],
+    "deployment": [
+     66
+    ],
+    "their": [
+     68
+    ],
+    "network": [
+     69,
+     177
+    ],
+    "cost-effective": [
+     72
+    ],
+    "regulation-compliant": [
+     74
+    ],
+    "manner.": [
+     75
+    ],
+    "minimizes": [
+     78
+    ],
+    "total": [
+     79
+    ],
+    "fuel": [
+     80,
+     95
+    ],
+    "procurement": [
+     81
+    ],
+    "costs": [
+     82
+    ],
+    "while": [
+     83
+    ],
+    "ensuring": [
+     84
+    ],
+    "compliance": [
+     85
+    ],
+    "with": [
+     86
+    ],
+    "blending": [
+     88,
+     106
+    ],
+    "thresholds.": [
+     89
+    ],
+    "It": [
+     90
+    ],
+    "incorporates": [
+     91
+    ],
+    "airport-level": [
+     92
+    ],
+    "pricing,": [
+     96
+    ],
+    "emissions": [
+     97
+    ],
+    "intensity": [
+     98
+    ],
+    "policy": [
+     100,
+     122,
+     172
+    ],
+    "constraints,": [
+     101
+    ],
+    "enabling": [
+     102
+    ],
+    "evaluate": [
+     105
+    ],
+    "strategies": [
+     107
+    ],
+    "that": [
+     108,
+     174
+    ],
+    "satisfy": [
+     109
+    ],
+    "both": [
+     110
+    ],
+    "environmental": [
+     111
+    ],
+    "logistical": [
+     114
+    ],
+    "feasibility.": [
+     115
+    ],
+    "Scenario": [
+     116
+    ],
+    "analysis": [
+     117
+    ],
+    "explores": [
+     118
+    ],
+    "impacts": [
+     120
+    ],
+    "of": [
+     121,
+     169
+    ],
+    "mechanisms": [
+     123
+    ],
+    "such": [
+     124
+    ],
+    "as": [
+     125
+    ],
+    "differentiated": [
+     126
+    ],
+    "mandates,": [
+     127
+    ],
+    "financial": [
+     128
+    ],
+    "incentives": [
+     129
+    ],
+    "supply": [
+     131
+    ],
+    "disruptions.": [
+     132
+    ],
+    "Applied": [
+     133
+    ],
+    "regional": [
+     136
+    ],
+    "airline": [
+     138
+    ],
+    "operating": [
+     139
+    ],
+    "Greece,": [
+     141
+    ],
+    "where": [
+     142
+    ],
+    "distribution": [
+     144
+    ],
+    "is": [
+     146
+    ],
+    "expanding,": [
+     147
+    ],
+    "actionable": [
+     151
+    ],
+    "insights": [
+     152
+    ],
+    "into": [
+     153
+    ],
+    "be": [
+     158
+    ],
+    "met": [
+     159
+    ],
+    "without": [
+     160
+    ],
+    "compromising": [
+     161
+    ],
+    "operational": [
+     162
+    ],
+    "viability.": [
+     163
+    ],
+    "results": [
+     165
+    ],
+    "highlight": [
+     166
+    ],
+    "importance": [
+     168
+    ],
+    "flexible,": [
+     170
+    ],
+    "data-informed": [
+     171
+    ],
+    "design": [
+     173
+    ],
+    "accounts": [
+     175
+    ],
+    "heterogeneity": [
+     178
+    ],
+    "evolving": [
+     180
+    ],
+    "market": [
+     181
+    ],
+    "conditions.": [
+     182
+    ]
+   }
+  },
+  {
+   "id": "https://openalex.org/W7224818411",
+   "doi": "https://doi.org/10.1007/978-3-032-37207-9_65",
+   "title": "Hybrid Train: Validation Process and Experimentation Insights Regarding Decarbonization and Operation Robustness",
+   "display_name": "Hybrid Train: Validation Process and Experimentation Insights Regarding Decarbonization and Operation Robustness",
+   "publication_date": "2026-10-30",
+   "publication_year": 2026,
+   "primary_location": {
+    "landing_page_url": "https://doi.org/10.1007/978-3-032-37207-9_65"
+   },
+   "authorships": [
+    {
+     "author": {
+      "display_name": "Matthieu Renault"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Victorien Millet"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Julien Décriaud"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Clément Dépature"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Philippe Adam"
+     }
+    }
+   ],
+   "abstract_inverted_index": {
+    "Abstract": [
+     0
+    ],
+    "Régiolis": [
+     1,
+     9
+    ],
+    "Hybrid": [
+     2
+    ],
+    "project": [
+     3,
+     27
+    ],
+    "involves": [
+     4
+    ],
+    "modifying": [
+     5
+    ],
+    "an": [
+     6
+    ],
+    "existing": [
+     7
+    ],
+    "dual-mode": [
+     8,
+     167
+    ],
+    "train": [
+     10,
+     57,
+     191
+    ],
+    "by": [
+     11,
+     33,
+     35,
+     98,
+     172
+    ],
+    "replacing": [
+     12
+    ],
+    "2": [
+     13
+    ],
+    "of": [
+     14,
+     25,
+     90,
+     165,
+     178
+    ],
+    "the": [
+     15,
+     47,
+     51,
+     75,
+     91,
+     105,
+     117,
+     155,
+     159,
+     163,
+     166,
+     174,
+     179,
+     185,
+     190
+    ],
+    "4": [
+     16
+    ],
+    "powerpacks": [
+     17,
+     181
+    ],
+    "with": [
+     18,
+     59,
+     68,
+     143
+    ],
+    "high-power": [
+     19
+    ],
+    "lithium-ion": [
+     20
+    ],
+    "batteries.": [
+     21
+    ],
+    "The": [
+     22
+    ],
+    "main": [
+     23
+    ],
+    "aim": [
+     24
+    ],
+    "this": [
+     26
+    ],
+    "is": [
+     28
+    ],
+    "to": [
+     29,
+     64,
+     103,
+     115,
+     130,
+     157,
+     162,
+     182
+    ],
+    "reduce": [
+     30
+    ],
+    "energy": [
+     31
+    ],
+    "consumption": [
+     32
+    ],
+    "20%": [
+     34
+    ],
+    "recovering": [
+     36
+    ],
+    "and": [
+     37,
+     123,
+     127
+    ],
+    "exploiting": [
+     38
+    ],
+    "electrical": [
+     39
+    ],
+    "braking": [
+     40,
+     48
+    ],
+    "energy,": [
+     41
+    ],
+    "previously": [
+     42
+    ],
+    "dissipated": [
+     43
+    ],
+    "as": [
+     44
+    ],
+    "heat": [
+     45
+    ],
+    "in": [
+     46,
+     54,
+     120
+    ],
+    "choppers.": [
+     49
+    ],
+    "For": [
+     50
+    ],
+    "first": [
+     52
+    ],
+    "time": [
+     53
+    ],
+    "France,": [
+     55
+    ],
+    "a": [
+     56,
+     69,
+     87,
+     99
+    ],
+    "equipped": [
+     58
+    ],
+    "Li-Ion": [
+     60
+    ],
+    "batteries": [
+     61
+    ],
+    "was": [
+     62,
+     96,
+     145,
+     150
+    ],
+    "able": [
+     63
+    ],
+    "carry": [
+     65
+    ],
+    "passengers.": [
+     66
+    ],
+    "Fitted": [
+     67
+    ],
+    "datalogger": [
+     70
+    ],
+    "that": [
+     71,
+     184
+    ],
+    "continuously": [
+     72
+    ],
+    "sends": [
+     73
+    ],
+    "all": [
+     74
+    ],
+    "necessary": [
+     76
+    ],
+    "monitoring": [
+     77
+    ],
+    "data,": [
+     78
+    ],
+    "it": [
+     79,
+     113
+    ],
+    "then": [
+     80
+    ],
+    "travelled": [
+     81
+    ],
+    "more": [
+     82
+    ],
+    "than": [
+     83
+    ],
+    "60,000": [
+     84
+    ],
+    "km,": [
+     85
+    ],
+    "enabling": [
+     86
+    ],
+    "precise": [
+     88,
+     118
+    ],
+    "assessment": [
+     89
+    ],
+    "overall": [
+     92
+    ],
+    "performance.": [
+     93
+    ],
+    "Environmental": [
+     94
+    ],
+    "performance": [
+     95,
+     142
+    ],
+    "measured": [
+     97
+    ],
+    "test": [
+     100
+    ],
+    "bench": [
+     101
+    ],
+    "campaign": [
+     102
+    ],
+    "replay": [
+     104
+    ],
+    "data": [
+     106
+    ],
+    "collected": [
+     107
+    ],
+    "during": [
+     108
+    ],
+    "commercial": [
+     109
+    ],
+    "operation.": [
+     110
+    ],
+    "This": [
+     111
+    ],
+    "made": [
+     112
+    ],
+    "possible": [
+     114
+    ],
+    "assess": [
+     116
+    ],
+    "gain": [
+     119
+    ],
+    "CO2": [
+     121
+    ],
+    "emissions": [
+     122
+    ],
+    "pollutants": [
+     124
+    ],
+    "without": [
+     125
+    ],
+    "bias,": [
+     126
+    ],
+    "find": [
+     128
+    ],
+    "up": [
+     129
+    ],
+    "−25%": [
+     131
+    ],
+    "CO2,": [
+     132
+    ],
+    "−52%": [
+     133
+    ],
+    "HC,": [
+     134
+    ],
+    "−41%": [
+     135,
+     137
+    ],
+    "CO,": [
+     136
+    ],
+    "NOx,": [
+     138
+    ],
+    "−39%": [
+     139
+    ],
+    "PM.": [
+     140
+    ],
+    "Furthermore,": [
+     141
+    ],
+    "biofuels": [
+     144
+    ],
+    "also": [
+     146,
+     171
+    ],
+    "evaluated.": [
+     147
+    ],
+    "Finally,": [
+     148
+    ],
+    "reliability": [
+     149
+    ],
+    "studied": [
+     151
+    ],
+    "from": [
+     152
+    ],
+    "two": [
+     153
+    ],
+    "angles:": [
+     154
+    ],
+    "ability": [
+     156
+    ],
+    "keep": [
+     158
+    ],
+    "timetable": [
+     160
+    ],
+    "compared": [
+     161
+    ],
+    "rest": [
+     164
+    ],
+    "trains": [
+     168
+    ],
+    "fleet,": [
+     169
+    ],
+    "but": [
+     170
+    ],
+    "analyzing": [
+     173
+    ],
+    "new": [
+     175
+    ],
+    "operating": [
+     176
+    ],
+    "points": [
+     177
+    ],
+    "remaining": [
+     180
+    ],
+    "ensure": [
+     183
+    ],
+    "usage": [
+     186
+    ],
+    "profile": [
+     187
+    ],
+    "doesn’t": [
+     188
+    ],
+    "degrade": [
+     189
+    ],
+    "reliability.": [
+     192
+    ]
+   }
+  },
+  {
+   "id": "https://openalex.org/W7224833618",
+   "doi": "https://doi.org/10.1007/978-3-032-37207-9_82",
+   "title": "Stakeholder Perspectives in Building and Deployment of Megawatt Charging Systems to Support the Decarbonization of the Heavy-Duty Transport in Europe",
+   "display_name": "Stakeholder Perspectives in Building and Deployment of Megawatt Charging Systems to Support the Decarbonization of the Heavy-Duty Transport in Europe",
+   "publication_date": "2026-10-30",
+   "publication_year": 2026,
+   "primary_location": {
+    "landing_page_url": "https://doi.org/10.1007/978-3-032-37207-9_82"
+   },
+   "authorships": [
+    {
+     "author": {
+      "display_name": "Alice Scotti"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Khalis Sinaga"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Stefanie Van Damme"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Thomas Geury"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Ben Kraaijenhagen"
+     }
+    },
+    {
+     "author": {
+      "display_name": "Gunnar Ohlin"
+     }
+    }
+   ],
+   "abstract_inverted_index": {
+    "Abstract": [
+     0
+    ],
+    "Megawatt": [
+     1,
+     105
+    ],
+    "charging": [
+     2
+    ],
+    "systems": [
+     3
+    ],
+    "(MCSs)": [
+     4
+    ],
+    "are": [
+     5,
+     50
+    ],
+    "crucial": [
+     6
+    ],
+    "for": [
+     7,
+     117,
+     130,
+     149
+    ],
+    "the": [
+     8,
+     41,
+     45,
+     118
+    ],
+    "decarbonization": [
+     9
+    ],
+    "of": [
+     10,
+     83,
+     155
+    ],
+    "heavy-duty": [
+     11,
+     43
+    ],
+    "transport": [
+     12
+    ],
+    "in": [
+     13,
+     40,
+     96,
+     157
+    ],
+    "Europe": [
+     14
+    ],
+    "and": [
+     15,
+     24,
+     32,
+     48,
+     64,
+     74,
+     90,
+     111,
+     124,
+     142,
+     147,
+     152
+    ],
+    "their": [
+     16
+    ],
+    "deployment": [
+     17
+    ],
+    "is": [
+     18,
+     29
+    ],
+    "massively": [
+     19
+    ],
+    "supported": [
+     20
+    ],
+    "by": [
+     21
+    ],
+    "public": [
+     22
+    ],
+    "authorities": [
+     23
+    ],
+    "initiatives.": [
+     25
+    ],
+    "However,": [
+     26
+    ],
+    "while": [
+     27
+    ],
+    "MCS": [
+     28,
+     156
+    ],
+    "creating": [
+     30,
+     114
+    ],
+    "hype": [
+     31
+    ],
+    "gaining": [
+     33
+    ],
+    "momentum": [
+     34
+    ],
+    "as": [
+     35,
+     101
+    ],
+    "an": [
+     36
+    ],
+    "expected": [
+     37
+    ],
+    "game": [
+     38
+    ],
+    "changer": [
+     39
+    ],
+    "long-haul": [
+     42
+    ],
+    "logistics,": [
+     44
+    ],
+    "stakeholder": [
+     46,
+     85
+    ],
+    "perspectives": [
+     47,
+     86
+    ],
+    "needs": [
+     49
+    ],
+    "far": [
+     51
+    ],
+    "from": [
+     52,
+     58
+    ],
+    "unified.": [
+     53
+    ],
+    "The": [
+     54,
+     136
+    ],
+    "divergence": [
+     55
+    ],
+    "mainly": [
+     56
+    ],
+    "stems": [
+     57
+    ],
+    "different": [
+     59
+    ],
+    "priorities,": [
+     60
+    ],
+    "geographic": [
+     61
+    ],
+    "operational": [
+     62
+    ],
+    "realities": [
+     63
+    ],
+    "varied": [
+     65
+    ],
+    "business": [
+     66
+    ],
+    "models,": [
+     67
+    ],
+    "concerning": [
+     68
+    ],
+    "all": [
+     69
+    ],
+    "value": [
+     70
+    ],
+    "chain": [
+     71
+    ],
+    "industrial": [
+     72
+    ],
+    "actors": [
+     73
+    ],
+    "policy": [
+     75
+    ],
+    "makers.": [
+     76
+    ],
+    "This": [
+     77
+    ],
+    "study": [
+     78
+    ],
+    "provides": [
+     79
+    ],
+    "a": [
+     80,
+     150
+    ],
+    "systematic": [
+     81
+    ],
+    "review": [
+     82
+    ],
+    "various": [
+     84
+    ],
+    "collected": [
+     87
+    ],
+    "through": [
+     88
+    ],
+    "surveys": [
+     89
+    ],
+    "interviews,": [
+     91
+    ],
+    "which": [
+     92
+    ],
+    "have": [
+     93
+    ],
+    "been": [
+     94
+    ],
+    "conducted": [
+     95
+    ],
+    "ongoing": [
+     97
+    ],
+    "EU": [
+     98
+    ],
+    "projects": [
+     99
+    ],
+    "such": [
+     100
+    ],
+    "FLEXMCS": [
+     102
+    ],
+    "-": [
+     103,
+     123,
+     126
+    ],
+    "Flexible": [
+     104
+    ],
+    "Charging": [
+     106,
+     129
+    ],
+    "Systems,": [
+     107
+    ],
+    "open": [
+     108
+    ],
+    "software": [
+     109
+    ],
+    "architectures,": [
+     110
+    ],
+    "planning": [
+     112
+    ],
+    "modules": [
+     113
+    ],
+    "multi-charger": [
+     115
+    ],
+    "hubs": [
+     116
+    ],
+    "European": [
+     119
+    ],
+    "electric": [
+     120
+    ],
+    "mobility": [
+     121
+    ],
+    "system": [
+     122
+    ],
+    "MACBETH": [
+     125
+    ],
+    "Multipoint": [
+     127
+    ],
+    "megAwatt": [
+     128
+    ],
+    "Battery": [
+     131
+    ],
+    "Electric": [
+     132
+    ],
+    "Truck": [
+     133
+    ],
+    "Hubs": [
+     134
+    ],
+    ".": [
+     135
+    ],
+    "outcomes": [
+     137
+    ],
+    "serve": [
+     138
+    ],
+    "to": [
+     139
+    ],
+    "cluster": [
+     140
+    ],
+    "opinions": [
+     141
+    ],
+    "identify": [
+     143
+    ],
+    "potential": [
+     144
+    ],
+    "bottle": [
+     145
+    ],
+    "necks": [
+     146
+    ],
+    "gaps": [
+     148
+    ],
+    "rapid": [
+     151
+    ],
+    "seamless": [
+     153
+    ],
+    "implementation": [
+     154
+    ],
+    "Europe.": [
+     158
+    ]
+   }
+  }
+ ]
+}

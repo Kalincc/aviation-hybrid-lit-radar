@@ -5,6 +5,7 @@ __pycache__/
 .env
 data/radar.db
 data/radar.db-journal
+data/radar.db-*
 logs/
 .DS_Store
 Thumbs.db

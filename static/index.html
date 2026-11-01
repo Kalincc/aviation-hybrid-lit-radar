@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#1E3A5F" />
+  <meta name="description" content="航空混合动力系统 · 能量管理 · 模式切换平顺性方向的文献自动追踪与结构化提取看板。" />
+  <title>Aviation Hybrid Lit Radar · 航空混动文献雷达</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <div class="progress-indeterminate" id="progress-bar" hidden>
+    <div class="progress-indeterminate__bar"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <div class="brand">
+        <span class="brand__logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" focusable="false">
+            <rect width="24" height="24" rx="6" fill="#1E3A5F" />
+            <g fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="7" />
+              <path d="M12 12 17 7" />
+              <path d="M12 5a7 7 0 0 1 7 7" opacity=".55" />
+              <circle cx="12" cy="12" r="1.5" fill="#FFFFFF" stroke="none" />
+            </g>
+          </svg>
+        </span>
+        <div class="brand__text">
+          <h1 class="brand__title">Aviation Hybrid Lit Radar</h1>
+          <p class="brand__subtitle">航空混动 · 能量管理 · 模式切换平顺性</p>
+        </div>
+      </div>
+
+      <div class="topbar__actions">
+        <span class="last-update" id="last-update" title="数据最后刷新时间">
+          <svg class="icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.2 2" /></svg>
+          <span id="last-update-text">最后更新 —</span>
+        </span>
+
+        <div class="segmented" id="days-control" role="group" aria-label="时间窗口">
+          <button type="button" class="segmented__btn" data-days="7" aria-pressed="false">7天</button>
+          <button type="button" class="segmented__btn" data-days="30" aria-pressed="false">30天</button>
+          <button type="button" class="segmented__btn is-active" data-days="90" aria-pressed="true">90天</button>
+          <button type="button" class="segmented__btn" data-days="180" aria-pressed="false">180天</button>
+          <button type="button" class="segmented__btn" data-days="0" aria-pressed="false">全部</button>
+        </div>
+
+        <button type="button" class="btn btn--primary" id="refresh-btn">
+          <svg class="icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1" />
+            <path d="M20.5 4v6h-6" />
+            <path d="M3.5 12a8.5 8.5 0 0 0 2.6 6.1" opacity=".45" />
+            <path d="M3.5 20v-6h6" opacity=".45" />
+          </svg>
+          <span class="btn__label" id="refresh-label">刷新数据</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container page" id="main">
+    <div class="notice" id="key-notice" hidden>
+      <svg class="icon notice__icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" /><path d="M12 11v5" /><path d="M12 8h.01" /></svg>
+      <p class="notice__text">当前为启发式提取模式（未配置 DeepSeek API Key 或调用失败），结论可能不精确。</p>
+    </div>
+
+    <section class="stats" aria-label="统计概览">
+      <h2 class="visually-hidden">统计概览</h2>
+      <article class="stat-card">
+        <p class="stat-card__label">文献总数</p>
+        <p class="stat-card__value" id="stat-total" aria-busy="true"><span class="skeleton skeleton--value" aria-hidden="true"></span><span class="visually-hidden">加载中</span></p>
+        <p class="stat-card__sub" id="stat-total-sub">当前时间窗口</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-card__label">开源占比</p>
+        <p class="stat-card__value" id="stat-open" aria-busy="true"><span class="skeleton skeleton--value" aria-hidden="true"></span><span class="visually-hidden">加载中</span></p>
+        <p class="stat-card__sub" id="stat-open-sub">按提取结果</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-card__label">近30天新增</p>
+        <p class="stat-card__value" id="stat-recent" aria-busy="true"><span class="skeleton skeleton--value" aria-hidden="true"></span><span class="visually-hidden">加载中</span></p>
+        <p class="stat-card__sub" id="stat-recent-sub">按发表时间</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-card__label">最近发表</p>
+        <p class="stat-card__value" id="stat-latest" aria-busy="true"><span class="skeleton skeleton--value" aria-hidden="true"></span><span class="visually-hidden">加载中</span></p>
+        <p class="stat-card__sub" id="stat-latest-sub">最新一篇</p>
+      </article>
+    </section>
+
+    <div class="alert" id="error-banner" role="alert" hidden>
+      <svg class="icon alert__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+      <div class="alert__body">
+        <p class="alert__message" id="error-message">数据加载失败</p>
+        <p class="alert__hint">检查后端服务是否已启动（<code>python app.py</code>）</p>
+      </div>
+      <button type="button" class="btn btn--secondary btn--sm" id="retry-btn">重试</button>
+    </div>
+
+    <div class="layout">
+      <section class="list-col" id="list-col" aria-label="文献列表">
+        <h2 class="visually-hidden">文献列表</h2>
+
+        <div class="toolbar" id="toolbar">
+          <div class="search-box">
+            <svg class="icon search-box__icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+            <input
+              type="search"
+              id="search-input"
+              class="search-input"
+              placeholder="搜索标题、摘要或一句话贡献…"
+              aria-label="搜索标题、摘要或一句话贡献"
+              autocomplete="off"
+              spellcheck="false"
+              enterkeyhint="search"
+            />
+          </div>
+          <div class="sort-group">
+            <label class="filter-label" for="sort-select">排序</label>
+            <div class="select-wrap">
+              <select class="select" id="sort-select">
+                <option value="date_desc" selected>最新优先</option>
+                <option value="date_asc">最早优先</option>
+                <option value="confidence_desc">置信度优先</option>
+              </select>
+              <svg class="icon select-wrap__icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-groups">
+          <div class="filter-group">
+            <span class="filter-label" id="open-filter-label">开源状态</span>
+            <div class="chips" id="open-chips" role="group" aria-labelledby="open-filter-label">
+              <button type="button" class="chip is-active" data-open-source="" aria-pressed="true">全部</button>
+              <button type="button" class="chip" data-open-source="yes" aria-pressed="false">开源</button>
+              <button type="button" class="chip" data-open-source="no" aria-pressed="false">闭源</button>
+              <button type="button" class="chip" data-open-source="unknown" aria-pressed="false">未知</button>
+            </div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label" id="source-filter-label">来源</span>
+            <div class="chips" id="source-chips" role="group" aria-labelledby="source-filter-label"></div>
+          </div>
+        </div>
+
+        <p class="results-meta" id="results-meta" aria-live="polite">正在加载文献…</p>
+
+        <div class="results" id="results-region" aria-live="polite" aria-busy="true">
+          <div class="paper-card paper-card--skeleton" aria-hidden="true">
+            <div class="paper-card__top">
+              <span class="skeleton skeleton--badge"></span>
+              <span class="skeleton skeleton--date"></span>
+              <span class="skeleton skeleton--badge-sm"></span>
+            </div>
+            <span class="skeleton skeleton--title"></span>
+            <span class="skeleton skeleton--line"></span>
+            <span class="skeleton skeleton--line skeleton--line-short"></span>
+            <div class="paper-card__chips">
+              <span class="skeleton skeleton--chip"></span>
+              <span class="skeleton skeleton--chip"></span>
+            </div>
+            <span class="skeleton skeleton--bar"></span>
+          </div>
+          <div class="paper-card paper-card--skeleton" aria-hidden="true">
+            <div class="paper-card__top">
+              <span class="skeleton skeleton--badge"></span>
+              <span class="skeleton skeleton--date"></span>
+              <span class="skeleton skeleton--badge-sm"></span>
+            </div>
+            <span class="skeleton skeleton--title"></span>
+            <span class="skeleton skeleton--line"></span>
+            <span class="skeleton skeleton--line skeleton--line-short"></span>
+            <div class="paper-card__chips">
+              <span class="skeleton skeleton--chip"></span>
+              <span class="skeleton skeleton--chip"></span>
+            </div>
+            <span class="skeleton skeleton--bar"></span>
+          </div>
+          <div class="paper-card paper-card--skeleton" aria-hidden="true">
+            <div class="paper-card__top">
+              <span class="skeleton skeleton--badge"></span>
+              <span class="skeleton skeleton--date"></span>
+              <span class="skeleton skeleton--badge-sm"></span>
+            </div>
+            <span class="skeleton skeleton--title"></span>
+            <span class="skeleton skeleton--line"></span>
+            <span class="skeleton skeleton--line skeleton--line-short"></span>
+            <div class="paper-card__chips">
+              <span class="skeleton skeleton--chip"></span>
+              <span class="skeleton skeleton--chip"></span>
+            </div>
+            <span class="skeleton skeleton--bar"></span>
+          </div>
+        </div>
+
+        <nav class="pagination" id="pagination" aria-label="分页" hidden>
+          <button type="button" class="btn btn--secondary btn--sm" id="prev-page">
+            <svg class="icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6" /></svg>
+            上一页
+          </button>
+          <span class="pagination__info" id="page-info">第 1 / 1 页</span>
+          <button type="button" class="btn btn--secondary btn--sm" id="next-page">
+            下一页
+            <svg class="icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+        </nav>
+      </section>
+
+      <aside class="side-col" aria-label="数据图表">
+        <section class="chart-card">
+          <div class="chart-card__head">
+            <h2 class="chart-card__title">月度趋势</h2>
+            <p class="chart-card__sub">按发表月份</p>
+          </div>
+          <div class="chart-card__body" id="chart-month">
+            <div class="chart-skeleton" aria-hidden="true"><span class="skeleton skeleton--chart-lg"></span><span class="skeleton skeleton--chart-line skeleton--w90"></span><span class="skeleton skeleton--chart-line skeleton--w70"></span></div>
+          </div>
+        </section>
+
+        <section class="chart-card">
+          <div class="chart-card__head">
+            <h2 class="chart-card__title">标签分布</h2>
+            <p class="chart-card__sub">前 7 个标签</p>
+          </div>
+          <div class="chart-card__body" id="chart-tags">
+            <div class="chart-skeleton" aria-hidden="true"><span class="skeleton skeleton--chart-lg"></span><span class="skeleton skeleton--chart-line skeleton--w90"></span><span class="skeleton skeleton--chart-line skeleton--w70"></span></div>
+          </div>
+        </section>
+
+        <section class="chart-card">
+          <div class="chart-card__head">
+            <h2 class="chart-card__title">开源状态</h2>
+            <p class="chart-card__sub">按提取结果</p>
+          </div>
+          <div class="chart-card__body" id="chart-donut">
+            <div class="chart-skeleton" aria-hidden="true"><span class="skeleton skeleton--chart-lg"></span><span class="skeleton skeleton--chart-line skeleton--w90"></span><span class="skeleton skeleton--chart-line skeleton--w70"></span></div>
+          </div>
+        </section>
+
+        <section class="chart-card">
+          <div class="chart-card__head">
+            <h2 class="chart-card__title">抓取记录</h2>
+            <p class="chart-card__sub">最近 3 次</p>
+          </div>
+          <div class="chart-card__body" id="chart-runs">
+            <div class="chart-skeleton" aria-hidden="true"><span class="skeleton skeleton--chart-line"></span><span class="skeleton skeleton--chart-line skeleton--w70"></span><span class="skeleton skeleton--chart-line skeleton--w90"></span></div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__text">数据来源：arXiv · OpenAlex · Semantic Scholar（可选）。提取结果由大模型辅助生成，仅供科研参考，请以原文为准。</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <p class="noscript">本页面需要启用 JavaScript 才能加载文献数据。</p>
+  </noscript>
+
+  <template id="tpl-skeleton-card">
+    <div class="paper-card paper-card--skeleton" aria-hidden="true">
+      <div class="paper-card__top">
+        <span class="skeleton skeleton--badge"></span>
+        <span class="skeleton skeleton--date"></span>
+        <span class="skeleton skeleton--badge-sm"></span>
+      </div>
+      <span class="skeleton skeleton--title"></span>
+      <span class="skeleton skeleton--line"></span>
+      <span class="skeleton skeleton--line skeleton--line-short"></span>
+      <div class="paper-card__chips">
+        <span class="skeleton skeleton--chip"></span>
+        <span class="skeleton skeleton--chip"></span>
+      </div>
+      <span class="skeleton skeleton--bar"></span>
+    </div>
+  </template>
+
+  <template id="tpl-empty">
+    <div class="state">
+      <div class="state__art" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <ellipse cx="30" cy="16" rx="15" ry="5.5" />
+          <path d="M15 16v13c0 3 6.7 5.5 15 5.5 2 0 4-.2 5.7-.5" />
+          <path d="M15 29v13c0 3 6.7 5.5 15 5.5" />
+          <path d="M45 16v9" />
+          <circle cx="45" cy="38" r="8" />
+          <path d="m51 44 6 6" />
+        </svg>
+      </div>
+      <h3 class="state__title">还没有入库文献</h3>
+      <p class="state__text">点击「刷新数据」抓取最近 90 天的航空混动文献</p>
+      <button type="button" class="btn btn--primary" data-action="refresh">
+        <svg class="icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1" /><path d="M20.5 4v6h-6" /></svg>
+        立即抓取
+      </button>
+    </div>
+  </template>
+
+  <template id="tpl-no-results">
+    <div class="state">
+      <div class="state__art" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <circle cx="28" cy="28" r="14" />
+          <path d="m38 38 12 12" />
+          <path d="m23 23 10 10" />
+          <path d="m33 23-10 10" />
+        </svg>
+      </div>
+      <h3 class="state__title">没有符合条件的文献</h3>
+      <p class="state__text">试试清空筛选或更换关键词</p>
+      <button type="button" class="btn btn--secondary" data-action="clear-filters">清空筛选</button>
+    </div>
+  </template>
+
+  <template id="tpl-error">
+    <div class="state state--error">
+      <div class="state__art" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+          <path d="M32 10 6 54h52L32 10z" />
+          <path d="M32 26v12" />
+          <path d="M32 45h.01" />
+        </svg>
+      </div>
+      <h3 class="state__title">暂时无法加载文献列表</h3>
+      <p class="state__text">请检查后端服务是否已启动（python app.py），然后重试。</p>
+      <button type="button" class="btn btn--secondary" data-action="retry">重试</button>
+    </div>
+  </template>
+
+  <script src="/static/js/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom">
+<entry>
+    <id>http://arxiv.org/abs/2606.08836v1</id>
+    <title>Adaptive Model Predictive Control of Nonlinear Generic Urban Air Mobility Using Linear Parameter-Varying Systems</title>
+    <updated>2026-06-07T21:03:19Z</updated>
+    <link href="https://arxiv.org/abs/2606.08836v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.08836v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper presents an adaptive model predictive control (MPC) framework for nonlinear urban air mobility (UAM) vehicles operating across the full flight envelope. The proposed approach leverages a linear parameter-varying (LPV) representation to update the predictive model online, enabling accurate capture of strongly nonlinear and time-varying dynamics associated with distributed electric propulsion (DEP) eVTOL aircraft. To systematically address the high-dimensional and coupled nature of MPC tuning, a multi-objective evolutionary optimization strategy based on NSGA-II is employed, incorporating proper normalization of states and control inputs to ensure balanced weighting and meaningful exploration of the design space. The resulting controller explicitly accounts for actuator constraints and enables reconfigurable control allocation for fault-tolerant operation. The framework is evaluated in nonlinear simulations using NASA's Generic Urban Air Mobility (GUAM) model and benchmarked against a robust servomechanism linear quadratic regulator (RSLQR). Results demonstrate that the proposed adaptive MPC achieves improved trajectory tracking and enhanced robustness under both nominal conditions and actuator degradation scenarios, including partial motor failure, while maintaining constraint satisfaction throughout all flight regimes.</summary>
+    <category term="eess.SY" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-07T21:03:19Z</published>
+    <arxiv:comment>This paper was accepted for presentation at the Vertical Flight Society's 82nd Annual Forum &amp; Technology Display, West Palm Beach, FL, USA, May 5-7, 2026</arxiv:comment>
+    <arxiv:primary_category term="eess.SY"/>
+    <arxiv:journal_ref>Ngo, T., "Adaptive Model Predictive Control of Nonlinear Generic Urban Air Mobility Using Linear Parameter-Varying Systems," Vertical Flight Society 82nd Annual Forum and Technology Display, West Palm Beach, Florida, May 5, 2026</arxiv:journal_ref>
+    <author>
+      <name>Tri Ngo</name>
+    </author>
+    <arxiv:doi>10.4050/F-0082-2026-0291</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.4050/F-0082-2026-0291" title="doi"/>
+  </entry>
+<entry>
+    <id>http://arxiv.org/abs/2605.24875v1</id>
+    <title>Solar phased arrays-based wireless power transfer for commercial airlines can reduce energy costs and carbon emissions in the United States</title>
+    <updated>2026-05-24T05:29:47Z</updated>
+    <link href="https://arxiv.org/abs/2605.24875v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2605.24875v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Decarbonizing aviation remains challenging because energy-dense jet fuels dominate beyond short-range operations, while batteries impose severe range and payload penalties. Here we evaluate a new infrastructure pathway in which utility-scale solar farms equipped with solar phased arrays wirelessly beam microwave power to hybrid-electric aircraft during cruise. Integrating 143,152 U.S. flight trajectories, 5,712 solar farms and wireless power transfer models, we quantify the spatial, temporal, and operational potential of this concept at continental scale. We find that benefits are highly concentrated in solar-rich, traffic-dense states and are dominated by short- and medium-range flights, accounting for nearly all delivered energy and cost savings. Schedule optimization and higher cruise altitudes further increase value by improving alignment between aircraft demand and beaming availability. Market penetration analysis reveals non-linear scaling between solar farm and flight adoption. These results show that wireless power beaming is best understood as a corridor-specific strategy complementing other aviation decarbonization pathways.</summary>
+    <category term="eess.SY" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.ET" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="math.NA" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-05-24T05:29:47Z</published>
+    <arxiv:comment>30 pages, 8 figures</arxiv:comment>
+    <arxiv:primary_category term="eess.SY"/>
+    <author>
+      <name>Tianyi Wang</name>
+    </author>
+    <author>
+      <name>Yiming Xu</name>
+    </author>
+    <author>
+      <name>Jiseop Byeon</name>
+    </author>
+    <author>
+      <name>Junfeng Jiao</name>
+    </author>
+    <author>
+      <name>Javad Mohammadi</name>
+    </author>
+    <author>
+      <name>Kara Kockelman</name>
+    </author>
+    <author>
+      <name>Christian Claudel</name>
+    </author>
+    <author>
+      <name>Alexandre Bayen</name>
+    </author>
+  </entry>
+</feed>
