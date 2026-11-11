@@ -8,6 +8,8 @@
 - 前端零构建、零 CDN、零外部字体，断网也能打开；图表全部手写 inline SVG。
 - 视觉规范由 **ui-ux-pro-max** 设计 skill 生成（`design-system/aviation-hybrid-lit-radar/MASTER.md`），落地规格见 `docs/UI-SPEC.md`。
 
+**GitHub 仓库**：<https://github.com/Kalincc/aviation-hybrid-lit-radar>（public，`master` 分支）
+
 ![看板 1440](docs/screenshots/dashboard-1440.png)
 
 ## 1. 作业要求 → 实现映射
