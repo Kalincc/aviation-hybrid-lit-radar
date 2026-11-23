@@ -43,3 +43,5 @@
 
 ## Backlog（P1，后续可选）
 - URL 查询参数同步、深色模式、CSV 导出、`/` 快捷键聚焦搜索、定时自动刷新（APScheduler）、配置 `SEMANTIC_SCHOLAR_API_KEY` 后 refresh 也可抓 S2。
+
+- 2026-11-23 Codex：使用 ponytail 与已安装 UI UX Pro Max 完成 Bug 修复、Geometric Bold 界面、摘要阅读及 RIS 全筛选导出；60 passed / 1 skipped，JS 语法检查与四断点浏览器验收完成；详情见 docs/IMPROVEMENTS-20261123.md。现有库 29 组同标题重复保留，新增跨轮去重，不自动清洗历史数据；未 push。

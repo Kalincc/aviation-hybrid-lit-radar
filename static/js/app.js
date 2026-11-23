@@ -94,6 +94,7 @@
   var chartRuns = document.getElementById('chart-runs');
 
   var toast = document.getElementById('toast');
+  var exportBtn = document.getElementById('export-btn');
 
   /* ------------------------------------------------------------------ *
    * 4. 通用工具
@@ -439,6 +440,7 @@
    * 9. 骨架屏
    * ------------------------------------------------------------------ */
   function showListSkeleton() {
+    exportBtn.disabled = true;
     state.view = 'loading';
     resultsRegion.classList.remove('is-updating');
     resultsRegion.setAttribute('aria-busy', 'true');
@@ -1162,6 +1164,10 @@
 
     // 证据摘录
     card.appendChild(buildEvidence(paper));
+    var abstract = el('details', 'evidence paper-abstract');
+    abstract.appendChild(el('summary', 'evidence__summary', '阅读完整摘要'));
+    abstract.appendChild(el('p', 'abstract-text', normalizeText(paper.abstract) || '该来源未提供摘要，请查看原文。'));
+    card.appendChild(abstract);
 
     // 底栏：置信度 / 模式 / 原文链接
     var footer = el('div', 'paper-card__footer');
@@ -1205,6 +1211,7 @@
    * 14. 列表 / 分页 / 结果状态
    * ------------------------------------------------------------------ */
   function renderResultsError() {
+    exportBtn.disabled = true;
     state.view = 'error';
     resultsRegion.classList.remove('is-updating');
     resultsRegion.setAttribute('aria-busy', 'false');
@@ -1216,6 +1223,7 @@
   }
 
   function renderResults() {
+    exportBtn.disabled = state.total === 0;
     resultsRegion.classList.remove('is-updating');
     resultsRegion.setAttribute('aria-busy', 'false');
     resultsRegion.textContent = '';
@@ -1229,9 +1237,15 @@
     }
 
     var hasFilters = !!(state.q || state.openSource || state.source);
-    if (state.total > 0 || hasFilters) {
+    if (state.total > 0 || hasFilters || (state.meta && state.meta.paper_count > 0)) {
       state.view = 'no-results';
       resultsRegion.appendChild(cloneTemplate('tpl-no-results'));
+      if (!hasFilters && state.days > 0) {
+        resultsRegion.querySelector('.state__text').textContent = '当前时间窗口内没有文献，试试「全部时间」。';
+        var allTime = resultsRegion.querySelector('[data-action]');
+        allTime.textContent = '查看全部时间';
+        allTime.setAttribute('data-action', 'all-time');
+      }
     } else {
       state.view = 'empty';
       resultsRegion.appendChild(cloneTemplate('tpl-empty'));
@@ -1338,6 +1352,7 @@
   }
 
   async function loadPapers(options) {
+    exportBtn.disabled = true;
     var opts = options || {};
     var seq = ++state.seq.papers;
     var useSkeleton = opts.mode === 'skeleton' || state.view === 'loading';
@@ -1365,6 +1380,10 @@
       state.total = finiteNumber(data.total) === null ? state.items.length : toCount(data.total);
       if (typeof data.page === 'number' && data.page >= 1) state.page = data.page;
       if (data.page_size >= 1 && data.page_size <= 50) state.pageSize = data.page_size;
+      if (state.total > 0 && state.page > getTotalPages()) {
+        state.page = getTotalPages();
+        return loadPapers(opts);
+      }
 
       clearLoadError('papers');
       updateResultsMeta();
@@ -1435,6 +1454,8 @@
         var errors = result && Array.isArray(result.errors) ? result.errors : [];
         var reason = errors.length ? String(errors[0]) : '所有数据源均不可用';
         showToast('抓取失败：' + reason, true);
+      } else if (status === 'partial') {
+        showToast('部分完成：新增 ' + toCount(result.inserted) + ' 篇；' + (result.errors || []).join('；'), true);
       } else {
         showToast('已更新：新增 ' + toCount(result && result.inserted) +
           ' 篇，提取 ' + toCount(result && result.extracted) + ' 篇');
@@ -1502,6 +1523,25 @@
    * 17. 事件绑定
    * ------------------------------------------------------------------ */
   function bindEvents() {
+    exportBtn.addEventListener('click', async function () {
+      exportBtn.disabled = true;
+      var params = new URLSearchParams({q: state.q, open_source: state.openSource,
+        source: state.source, days: String(state.days), sort: state.sort});
+      try {
+        var response = await fetch('/api/export.ris?' + params.toString());
+        if (!response.ok) throw new Error('导出失败，请稍后重试');
+        var url = URL.createObjectURL(await response.blob());
+        var link = el('a');
+        link.href = url;
+        link.download = 'aviation-literature.ris';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        showToast('已导出全部匹配文献，可导入 Zotero 等文献管理器');
+      } catch (err) { showToast(err.message || '导出失败', true); }
+      finally { exportBtn.disabled = state.total === 0 || state.view !== 'ready'; }
+    });
     daysControl.addEventListener('click', function (event) {
       var btn = event.target.closest('button[data-days]');
       if (!btn || btn.disabled) return;
@@ -1568,6 +1608,7 @@
       if (action === 'refresh') doRefresh();
       else if (action === 'clear-filters') clearFilters();
       else if (action === 'retry') reloadAll();
+      else if (action === 'all-time') selectDays(0);
     });
   }
 

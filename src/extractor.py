@@ -263,23 +263,6 @@ DATASET_TERMS: list[tuple[str, str]] = [
     ("matlab/simulink", "MATLAB/Simulink"),
 ]
 
-OPEN_SOURCE_POSITIVE = (
-    "open-source",
-    "open source",
-    "github.com",
-    "code is available",
-    "publicly available",
-    "released under",
-)
-
-OPEN_SOURCE_NEGATIVE = (
-    "proprietary",
-    "not open-source",
-    "not open source",
-    "code is not available",
-    "confidential",
-)
-
 _SENTENCE_SPLIT = re.compile(r"(?<=[.!?。！？])\s+")
 
 
@@ -313,23 +296,15 @@ def _find_terms(abstract: str, table: list[tuple[str, str]], limit: int) -> list
     return found
 
 
-def _match_sentence(abstract: str, needle: str) -> str:
-    """返回摘要中包含 needle 的句子（前缀截断仍保持子串性质）。"""
-    lowered_needle = needle.lower()
-    for sentence in _SENTENCE_SPLIT.split(abstract or ""):
-        if lowered_needle in sentence.lower():
-            return sentence.strip()[:400]
-    return ""
-
-
 def _heuristic_code_open_source(abstract: str) -> tuple[str, str]:
-    lowered = (abstract or "").lower()
-    for word in OPEN_SOURCE_NEGATIVE:
-        if word in lowered:
-            return "no", _match_sentence(abstract, word)
-    for word in OPEN_SOURCE_POSITIVE:
-        if word in lowered:
-            return "yes", _match_sentence(abstract, word)
+    # 只接受明确以代码/软件为对象的声明；数据可用和开源工具不等于本论文代码开源。
+    positive = r"\b(?:code|software|implementation)\s+(?:(?:is|are|has been)\s+)?(?:publicly available|available|open[- ]source|released)\b"
+    negative = r"\b(?:code|software|implementation)\s+(?:(?:is|are)\s+)?(?:not\s+(?:publicly\s+)?available|not open[- ]source|proprietary|confidential)\b"
+    for sentence in _SENTENCE_SPLIT.split(abstract or ""):
+        if re.search(negative, sentence, re.I):
+            return "no", sentence.strip()
+        if re.search(positive, sentence, re.I):
+            return "yes", sentence.strip()
     return "unknown", ""
 
 

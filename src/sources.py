@@ -521,17 +521,25 @@ def fetch_semantic_scholar_bootstrap(
 # ---------------- 去重 / 相关性 / 汇总 ----------------
 
 
-def dedupe(papers: list[PaperIn]) -> list[PaperIn]:
+def paper_keys(paper: Any) -> list[tuple[str, str]]:
+    """抓取项与库存共用身份规则，DOI 容忍 resolver URL 与大小写。"""
+    data = paper.to_dict() if hasattr(paper, "to_dict") else dict(paper)
+    keys = [("source", f"{data['source']}:{data['external_id']}")]
+    doi = re.sub(r"^(?:https?://(?:dx\.)?doi\.org/|doi:\s*)", "", (data.get("doi") or "").strip().lower())
+    if doi:
+        keys.append(("doi", doi))
+    title = _norm_title(data.get("title") or "")
+    if title:
+        keys.append(("title", title))
+    return keys
+
+
+def dedupe(papers: list[PaperIn], existing: list[Any] | None = None) -> list[PaperIn]:
     """三键去重：(source, external_id) -> DOI -> 规范化标题。保持首次出现顺序。"""
-    seen: set[tuple[str, str]] = set()
+    seen = {key for paper in existing or [] for key in paper_keys(paper)}
     result: list[PaperIn] = []
     for paper in papers:
-        keys: list[tuple[str, str]] = [("source", f"{paper.source}:{paper.external_id}")]
-        if paper.doi:
-            keys.append(("doi", paper.doi.strip().lower()))
-        norm = _norm_title(paper.title)
-        if norm:
-            keys.append(("title", norm))
+        keys = paper_keys(paper)
         if any(key in seen for key in keys):
             continue
         seen.update(keys)
@@ -540,9 +548,11 @@ def dedupe(papers: list[PaperIn]) -> list[PaperIn]:
 
 
 def is_relevant(title: str, abstract: str = "") -> bool:
-    """标题+摘要小写包含任一航空语境词。"""
-    text = f"{title or ''} {abstract or ''}".lower()
-    return any(term in text for term in config.AVIATION_TERMS)
+    """航空语境与动力/能量主题同时命中，避免培训类和地面车辆混入。"""
+    text = re.sub(r"[‐‑–—-]", " ", f"{title or ''} {abstract or ''}".lower())
+    aviation = r"\b(?:aircraft|aviation|aerospace|evtol|uavs?|air transport|airborne|airlines?|rotorcraft|helicopters?|drones?|flight|avionics)\b"
+    power = r"\b(?:hybrid|electric|electrified|electrification|turboelectric|fuel cell|battery|batteries|power split|power allocation|mode transition|mode switching|bumpless)\b"
+    return bool(re.search(aviation, text) and re.search(power, text))
 
 
 def fetch_all(

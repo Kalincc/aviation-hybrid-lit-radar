@@ -9,12 +9,13 @@
 from __future__ import annotations
 
 import logging
+from threading import Lock
 from contextlib import asynccontextmanager
 from typing import Any, Literal
 
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -210,6 +211,8 @@ def create_app(
     )
     app.state.settings = settings
     app.state.db_path = db_file
+    # ponytail: 单进程看板锁；多 worker/多实例部署时改用数据库任务锁。
+    refresh_lock = Lock()
 
     # 静态资源（前端并行开发，目录可能为空/不存在）
     if config.STATIC_DIR.exists():
@@ -334,16 +337,49 @@ def create_app(
             data = db.stats(conn, days=window)
         return StatsResponse(**data)
 
+    @app.get("/api/export.ris")
+    def export_ris(
+        q: str = "",
+        open_source: Literal["", "yes", "no", "unknown"] = "",
+        source: Literal["", "arxiv", "openalex", "semantic_scholar"] = "",
+        days: int | None = Query(None, ge=0),
+        sort: Literal["date_desc", "date_asc", "confidence_desc"] = "date_desc",
+    ) -> Response:
+        """导出全部匹配项，沿用列表查询，避免仅导出当前页。"""
+        lines: list[str] = []
+        with db.open_db(db_file) as conn:
+            total, _ = db.list_papers(conn, q=q, open_source=open_source, source=source,
+                                      days=settings.default_days if days is None else days)
+            _, items = db.list_papers(conn, q=q, open_source=open_source, source=source,
+                                     days=settings.default_days if days is None else days,
+                                     sort=sort, page_size=max(1, total))
+        for item in items:
+            lines.append("TY  - GEN")
+            fields = [("TI", item["title"]), *[("AU", a) for a in item["authors"]],
+                      ("PY", item["published"][:4]), ("DA", item["published"]),
+                      ("DO", item["doi"]), ("UR", item["url"]), ("AB", item["abstract"])]
+            for tag, value in fields:
+                if value:
+                    lines.append(f"{tag}  - {' '.join(str(value).split())}")
+            lines.extend(["ER  -", ""])
+        return Response("\n".join(lines), media_type="application/x-research-info-systems; charset=utf-8",
+                        headers={"Content-Disposition": 'attachment; filename="aviation-literature.ris"'})
+
     @app.post("/api/refresh", response_model=RefreshResponse)
     def refresh(body: RefreshRequest) -> RefreshResponse:
-        result = pipeline.run_refresh(
-            days=body.days,
-            limit=body.limit,
-            extract=body.extract,
-            db_path=db_file,
-            settings=settings,
-        )
-        return RefreshResponse(**result)
+        if not refresh_lock.acquire(blocking=False):
+            raise HTTPException(409, detail={"code": "refresh_busy", "message": "已有刷新正在进行，请稍后查看抓取记录"})
+        try:
+            result = pipeline.run_refresh(
+                days=body.days,
+                limit=body.limit,
+                extract=body.extract,
+                db_path=db_file,
+                settings=settings,
+            )
+            return RefreshResponse(**result)
+        finally:
+            refresh_lock.release()
 
     @app.get("/api/runs", response_model=RunsResponse)
     def runs(limit: int = Query(5, ge=1, le=50)) -> RunsResponse:

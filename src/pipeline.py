@@ -21,12 +21,6 @@ from . import config, db, extractor, sources
 log = logging.getLogger(__name__)
 
 
-def _paper_payload(paper: sources.PaperIn, paper_id: int) -> dict[str, Any]:
-    data = paper.to_dict()
-    data["id"] = paper_id
-    return data
-
-
 def run_refresh(
     days: int = 90,
     limit: int = 20,
@@ -55,18 +49,23 @@ def run_refresh(
         errors.extend(source_errors)
         fetched = len(papers)
 
-        new_papers: list[dict[str, Any]] = []
-        for paper in papers:
+        existing = conn.execute("SELECT source, external_id, doi, title FROM papers").fetchall()
+        for paper in sources.dedupe(papers, existing):
             paper_id = db.upsert_paper(conn, paper)
             if paper_id is not None:
                 inserted += 1
-                new_papers.append(_paper_payload(paper, paper_id))
         skipped = max(0, fetched - inserted)
 
-        if extract and new_papers:
-            # 缓存策略：只提取「新入库且尚无 extraction」的论文（新入库天然没有）
-            targets = [p for p in new_papers if db.get_extraction(conn, int(p["id"])) is None]
-            for result in extractor.extract_many(targets, settings):
+        if extract:
+            # 补齐此前 --no-extract 或异常留下的缺口；已有提取结果保持不变。
+            targets = db.papers_missing_extraction(conn)
+            try:
+                results = extractor.extract_many(targets, settings)
+            except Exception as exc:
+                log.exception("批量提取异常")
+                errors.append(f"extract: {type(exc).__name__}: {exc}")
+                results = []
+            for result in results:
                 paper_id = result.get("paper_id")
                 extraction = result.get("extraction")
                 if paper_id is None or not extraction:
@@ -79,9 +78,9 @@ def run_refresh(
                     heuristic_count += 1
 
         # status：无错误 success；有源失败且有数据 partial；有源失败且零抓取 error
-        if source_errors and fetched == 0:
+        if errors and fetched == 0 and inserted == 0 and extracted == 0:
             status = "error"
-        elif source_errors:
+        elif errors:
             status = "partial"
         else:
             status = "success"

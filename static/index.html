@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light" />
-  <meta name="theme-color" content="#1E3A5F" />
+  <meta name="theme-color" content="#000000" />
   <meta name="description" content="航空混合动力系统 · 能量管理 · 模式切换平顺性方向的文献自动追踪与结构化提取看板。" />
   <title>Aviation Hybrid Lit Radar · 航空混动文献雷达</title>
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
@@ -22,7 +22,7 @@
       <div class="brand">
         <span class="brand__logo" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="20" height="20" focusable="false">
-            <rect width="24" height="24" rx="6" fill="#1E3A5F" />
+            <rect width="24" height="24" fill="#000000" />
             <g fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="7" />
               <path d="M12 12 17 7" />
@@ -32,7 +32,7 @@
           </svg>
         </span>
         <div class="brand__text">
-          <h1 class="brand__title">Aviation Hybrid Lit Radar</h1>
+          <p class="brand__title">Aviation Hybrid Lit Radar</p>
           <p class="brand__subtitle">航空混动 · 能量管理 · 模式切换平顺性</p>
         </div>
       </div>
@@ -65,9 +65,18 @@
   </header>
 
   <main class="container page" id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__copy">
+        <p class="eyebrow">RESEARCH OBSERVATORY / 航空混合动力</p>
+        <h1 id="hero-title">追踪前沿。<br>让研究<span>有据可循。</span></h1>
+        <p class="hero__intro">从真实文献到原文证据，发现能量管理与模式切换的新进展。</p>
+        <div class="hero__topics"><span>01 能量管理</span><span>02 模式切换</span><span>03 电推进架构</span></div>
+      </div>
+      <div class="hero__art" aria-hidden="true"><i class="shape-circle"></i><i class="shape-square"></i><i class="shape-triangle"></i><span>LIT<br>RADAR ↗</span></div>
+    </section>
     <div class="notice" id="key-notice" hidden>
       <svg class="icon notice__icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" /><path d="M12 11v5" /><path d="M12 8h.01" /></svg>
-      <p class="notice__text">当前为启发式提取模式（未配置 DeepSeek API Key 或调用失败），结论可能不精确。</p>
+        <p class="notice__text">未启用 DeepSeek，新提取将使用启发式规则；已有文献的实际提取模式见各卡片标注。</p>
     </div>
 
     <section class="stats" aria-label="统计概览">
@@ -83,7 +92,7 @@
         <p class="stat-card__sub" id="stat-open-sub">按提取结果</p>
       </article>
       <article class="stat-card">
-        <p class="stat-card__label">近30天新增</p>
+        <p class="stat-card__label">近30天发表</p>
         <p class="stat-card__value" id="stat-recent" aria-busy="true"><span class="skeleton skeleton--value" aria-hidden="true"></span><span class="visually-hidden">加载中</span></p>
         <p class="stat-card__sub" id="stat-recent-sub">按发表时间</p>
       </article>
@@ -105,7 +114,8 @@
 
     <div class="layout">
       <section class="list-col" id="list-col" aria-label="文献列表">
-        <h2 class="visually-hidden">文献列表</h2>
+        <div class="section-heading"><div><p class="eyebrow">THE READING ROOM</p><h2>文献观察室<span class="section-number"> / 01</span></h2></div><button type="button" class="btn btn--secondary" id="export-btn" disabled>导出筛选结果 · RIS ↗</button></div>
+        <p class="section-hint">列表按下方条件筛选；统计与图表按顶部时间窗口汇总。</p>
 
         <div class="toolbar" id="toolbar">
           <div class="search-box">

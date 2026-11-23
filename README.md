@@ -147,3 +147,10 @@ aviation-hybrid-lit-radar/
 - 所有文献标题/作者/摘要/链接均来自 arXiv / Semantic Scholar / OpenAlex 官方 API；seed 文件保留 `generated_at`、`window_days`、`source_counts`。
 - LLM 只做“摘要→结构化字段”的信息抽取，所有结论字段都可回溯到 summary 原文证据；不生成不存在的论文、作者或数字。
 - 本项目为课程作业演示，遵循各数据源使用条款（arXiv ≥3s 间隔、OpenAlex polite pool、不抓 PDF 全文）。
+
+## 2026-11-23 完善
+
+- 修复提取缺口无法恢复、批量提取异常导致运行记录悬挂、并发刷新重复执行、启发式开源误判、搜索通配符误匹配、时间窗口空态误导与部分成功提示。
+- 收紧后续抓取相关性：航空语境与混动/电动/储能/模式切换主题同时命中。已有库和 seed 不自动重筛或重新提取。
+- 新增完整摘要阅读和 `GET /api/export.ris`；按搜索/来源/开源状态/时间/排序导出全部匹配结果，可导入文献管理器。
+- UI 参考用户指定 Geometric Bold；UI UX Pro Max 辅助可访问性与布局检查。设计覆盖见 `design-system/aviation-hybrid-lit-radar/pages/dashboard.md`。

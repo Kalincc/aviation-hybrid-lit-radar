@@ -200,8 +200,9 @@ def _build_filter(
     params = list(params or [])
     clauses: list[str] = []
     if q:
-        like = f"%{q.strip()}%"
-        clauses.append("(p.title LIKE ? OR p.abstract LIKE ? OR e.one_line LIKE ?)")
+        escaped = q.strip().replace("!", "!!").replace("%", "!%").replace("_", "!_")
+        like = f"%{escaped}%"
+        clauses.append("(p.title LIKE ? ESCAPE '!' OR p.abstract LIKE ? ESCAPE '!' OR e.one_line LIKE ? ESCAPE '!')")
         params.extend([like, like, like])
     if open_source:
         clauses.append("COALESCE(e.code_open_source, 'unknown') = ?")
