@@ -45,3 +45,5 @@
 - URL 查询参数同步、深色模式、CSV 导出、`/` 快捷键聚焦搜索、定时自动刷新（APScheduler）、配置 `SEMANTIC_SCHOLAR_API_KEY` 后 refresh 也可抓 S2。
 
 - 2026-11-23 Codex：使用 ponytail 与已安装 UI UX Pro Max 完成 Bug 修复、Geometric Bold 界面、摘要阅读及 RIS 全筛选导出；60 passed / 1 skipped，JS 语法检查与四断点浏览器验收完成；详情见 docs/IMPROVEMENTS-20261123.md。现有库 29 组同标题重复保留，新增跨轮去重，不自动清洗历史数据；未 push。
+
+- 2026-11-23 Codex：重拍并更新 README 的 1440/1024/768/375 新版 UI、关键词检索、摘要/证据共 6 张截图；同步功能、API、60 passed / 1 skipped、main 分支和 seed/截图库存说明。旧 PNG 保留作历史存档；图片与本地链接检查通过；准备同步 main/master，保证默认仓库首页也展示新版 README。
