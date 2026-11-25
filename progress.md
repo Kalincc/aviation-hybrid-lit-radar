@@ -47,3 +47,5 @@
 - 2026-11-23 Codex：使用 ponytail 与已安装 UI UX Pro Max 完成 Bug 修复、Geometric Bold 界面、摘要阅读及 RIS 全筛选导出；60 passed / 1 skipped，JS 语法检查与四断点浏览器验收完成；详情见 docs/IMPROVEMENTS-20261123.md。现有库 29 组同标题重复保留，新增跨轮去重，不自动清洗历史数据；未 push。
 
 - 2026-11-23 Codex：重拍并更新 README 的 1440/1024/768/375 新版 UI、关键词检索、摘要/证据共 6 张截图；同步功能、API、60 passed / 1 skipped、main 分支和 seed/截图库存说明。旧 PNG 保留作历史存档；图片与本地链接检查通过；准备同步 main/master，保证默认仓库首页也展示新版 README。
+
+- 2026-11-25 Codex：README 快速开始改为 Win+R 单行 CMD 启动，使用 cd /d 与虚拟环境解释器；首次安装保留已有 .env，补充端口占用与停止说明。CMD 启动负载在独立测试端口验证 health/database 正常、页面 HTTP 200；pytest 60 passed / 1 skipped，未改动业务代码。

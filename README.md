@@ -30,29 +30,49 @@
 
 环境：Python 3.10+（本项目在 **Python 3.14.4 / Windows 11** 验证）；Node 不需要。
 
-```bat
-cd E:\aviation-hybrid-lit-radar
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env
-:: 可选：编辑 .env 填入 DEEPSEEK_API_KEY（不填则自动使用启发式提取，功能完整）
-python app.py
+### Windows：按 Win+R 快速启动
+
+已经安装过依赖时，每次启动只需：
+
+1. 按 **Win+R** 打开「运行」。
+2. 粘贴下面这一整行，按回车（不要拆成多行）：
+
+```cmd
+cmd /k "cd /d E:\aviation-hybrid-lit-radar && .venv\Scripts\python.exe app.py"
 ```
 
-打开 <http://127.0.0.1:8000> 。首次启动若数据库为空，会自动导入 `data/seed_papers.json`（143 篇真实论文，2026-11-01 抓取/刷新）；也可手动导入：
+3. 等待出现 `Uvicorn running on http://127.0.0.1:8000`，再用浏览器打开 <http://127.0.0.1:8000>。
 
-```bat
-python -m src.pipeline --load-seed
+运行期间保持命令窗口开启；按 **Ctrl+C** 停止服务。此方法直接使用项目虚拟环境，无需手动激活；`cd /d` 会同时切换盘符和目录，`/k` 会保留窗口以便查看报错。若项目放在其他位置，请将命令中的 `E:\aviation-hybrid-lit-radar` 改为实际路径（路径含空格时需给目录加双引号）。若修改了 `.env` 中的 `PORT`，请打开相应端口的网址。
+
+若出现 `WinError 10048` / `address already in use`，说明端口已被占用。先打开上述网址检查服务是否已经运行，避免重复启动；需要重启时，在原来的服务窗口按 Ctrl+C 后再启动。
+
+### 首次安装（只需一次）
+
+尚无 `.venv` 或未安装依赖时，先按 **Win+R**，输入 `cmd` 回车，再在打开的 CMD 窗口逐行执行：
+
+```cmd
+cd /d E:\aviation-hybrid-lit-radar
+if not exist .venv\Scripts\python.exe python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+if not exist .env copy .env.example .env
+```
+
+每一步成功后再执行下一步；安装完成后使用上面的 Win+R 启动命令。已有 `.env` 会保留，不会覆盖其中的 Key；可选填入 `DEEPSEEK_API_KEY`，不填则新提取使用启发式。若提示找不到 `python`，先安装 Python 3.10+ 并确保可在 CMD 中运行。
+
+首次启动若数据库为空，会自动导入 `data/seed_papers.json`（143 篇真实论文，2026-11-01 抓取/刷新）。也可在项目目录的 CMD 中手动导入：
+
+```cmd
+.venv\Scripts\python.exe -m src.pipeline --load-seed
 ```
 
 手动刷新（也可点看板右上角「刷新数据」）：
 
-```bat
-python -m src.pipeline --days 90 --limit 40
+```cmd
+.venv\Scripts\python.exe -m src.pipeline --days 90 --limit 40
 ```
 
-macOS / Linux 将 `.venv\Scripts\activate` 换成 `source .venv/bin/activate` 即可。
+macOS / Linux：先用 `python3 -m venv .venv` 创建环境，然后执行 `.venv/bin/python -m pip install -r requirements.txt`，最后用 `.venv/bin/python app.py` 启动；无需运行 Windows 的 Win+R 命令。
 
 ## 3. 环境变量（`.env`）
 
